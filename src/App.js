@@ -18,10 +18,6 @@ function App() {
   const [token, setToken] = useState("")
   var playState = false;
   const playStateRef = useRef()
-
-  
-  // playStateRef.current.src = {pause};
-  
   
   
   useEffect(() => {
