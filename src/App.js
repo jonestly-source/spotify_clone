@@ -23,7 +23,6 @@ function App() {
     const hash = window.location.hash;
     let token = window.localStorage.getItem("token");
 
-    playStateRef.current.src = playState ? { pause } : { play };
     if (hash && !token) {
       token = hash
         .substring(1)
@@ -37,6 +36,10 @@ function App() {
 
     setToken(token);
   }, []);
+  
+  useEffect(() => {
+    playStateRef.current.src = playState ? { pause } : { play };
+  }, [token])
 
   function duration(e) {
     console.log(e);
