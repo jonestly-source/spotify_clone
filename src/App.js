@@ -1,23 +1,18 @@
-import logo from './logo.svg';
+import heart from './heart.svg'
+import hide from './hide.svg'
+import library from './library.svg'
+import next from './next.svg'
+import pause from './pause.svg'
+import play from './play.svg'
+import preview from './preview.svg'
+import search from './search.svg'
+import search from './search.svg'
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
     </div>
   );
 }
