@@ -1,30 +1,29 @@
-import heart from './heart.svg'
-import hide from './hide.svg'
-import library from './library.svg'
-import next from './next.svg'
-import pause from './pause.svg'
-import play from './play.svg'
-import preview from './preview.svg'
-import search from './search.svg'
-import share from './share.svg'
-import './App.css';
-import { useEffect, useState, useRef } from 'react'
+import heart from "./heart.svg";
+import hide from "./hide.svg";
+import library from "./library.svg";
+import next from "./next.svg";
+import pause from "./pause.svg";
+import play from "./play.svg";
+import preview from "./preview.svg";
+import search from "./search.svg";
+import share from "./share.svg";
+import "./App.css";
+import { useEffect, useState, useRef } from "react";
 
 function App() {
-  const CLIENT_ID = "6f948a1c7d894133992a9aaad8f196df"
-  const REDIRECT_URI = "http://localhost:3000"
-  const RESPONSE_TYPE = "token"
-  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
-  const [token, setToken] = useState("")
+  const CLIENT_ID = "6f948a1c7d894133992a9aaad8f196df";
+  const REDIRECT_URI = "http://localhost:3000";
+  const RESPONSE_TYPE = "token";
+  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+  const [token, setToken] = useState("");
   var playState = false;
-  const playStateRef = useRef()
-  
-  
+  const playStateRef = useRef();
+
   useEffect(() => {
-    const hash = window.location.hash
-    let token = window.localStorage.getItem("token")
-    
-    playStateRef.current.src = playState ? { pause } : { play }
+    const hash = window.location.hash;
+    let token = window.localStorage.getItem("token");
+
+    playStateRef.current.src = playState ? { pause } : { play };
     if (hash && !token) {
       token = hash
         .substring(1)
@@ -32,33 +31,36 @@ function App() {
         .find((e) => e.startsWith("access_token"))
         .split("=")[1];
 
-      window.location.hash = ""
-      window.localStorage.setItem("token", token)
+      window.location.hash = "";
+      window.localStorage.setItem("token", token);
     }
 
-    setToken(token)
-  }, [playStateRef])
+    setToken(token);
+  }, []);
 
   function duration(e) {
-    console.log(e)
+    console.log(e);
   }
 
   function playerContainer() {
-    return
+    return;
   }
 
   function songState(e) {
-    e.stopPropagation()
-    playState ? playState = false : playState = true;
-    console.log(playState)
+    e.stopPropagation();
+    playState ? (playState = false) : (playState = true);
+    console.log(playState);
   }
 
   if (!token) {
     return (
-      <a className="login-btn" href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>
+      <a
+        className="login-btn"
+        href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
+      >
         Login to Spotify
       </a>
-    )
+    );
   }
   return (
     <div className="App">
@@ -74,7 +76,7 @@ function App() {
               <img src={heart} alt="" className="icon" />
             </div>
             <div className="cv-image" onClick={songState}>
-              <img src={play} alt="" className="icon" ref={playStateRef}/>
+              <img src={play} alt="" className="icon" ref={playStateRef} />
             </div>
           </div>
         </section>
@@ -82,7 +84,12 @@ function App() {
           <h1>Good Afternoon</h1>
           <nav>
             <div className="cv-image">
-              <input type="search" name="" id="" onChange={() => console.log("hello")} />
+              <input
+                type="search"
+                name=""
+                id=""
+                onChange={() => console.log("hello")}
+              />
               <img src={search} alt="" className="icons" />
             </div>
             <div className="cv-image">
