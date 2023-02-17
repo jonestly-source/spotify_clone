@@ -1,12 +1,12 @@
-import heart from "./heart.svg";
-import hide from "./hide.svg";
-import library from "./library.svg";
-import next from "./next.svg";
-import pause from "./pause.svg";
-import play from "./play.svg";
-import preview from "./preview.svg";
-import search from "./search.svg";
-import share from "./share.svg";
+import { ReactComponent as Heart } from "./heart.svg";
+import { ReactComponent as Hide } from "./hide.svg";
+import { ReactComponent as Library } from "./library.svg";
+import { ReactComponent as Next } from "./next.svg";
+import { ReactComponent as Pause } from "./pause.svg";
+import { ReactComponent as Play } from "./play.svg";
+import { ReactComponent as Preview } from "./preview.svg";
+import { ReactComponent as Search } from "./search.svg";
+import { ReactComponent as Share } from "./share.svg";
 import "./App.css";
 import { useEffect, useState, useRef } from "react";
 
@@ -16,8 +16,9 @@ function App() {
   const RESPONSE_TYPE = "token";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const [token, setToken] = useState("");
-  var playState = false;
-  const playStateRef = useRef();
+  const [playState, setPlayState] = useState(true);
+  const [heartState, setHeartState] = useState(false);
+  const showPlayer = useRef();
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -37,24 +38,37 @@ function App() {
     setToken(token);
   }, []);
 
-  useEffect(() => {
-    playStateRef.current.src = playState ? { pause } : { play };
-  }, [token]);
-
   function duration(e) {
-    console.log(e);
+    document.body.style.setProperty("--duration", `${e.target.value}%`);
+    console.log(e.target.value);
   }
 
   function playerContainer() {
-    return;
+    showPlayer.current.style.display == "flex"
+      ? (showPlayer.current.style.display = "none")
+      : (showPlayer.current.style.display = "flex");
+  }
+
+  function favState(e) {
+    e.stopPropagation();
+    if (e.target.style.fill == "white" && heartState) {
+      e.target.style.fill = "transparent";
+      setHeartState(false);
+    } else {
+      e.target.style.fill = "white";
+      setHeartState(true);
+    }
+    console.log(Heart);
   }
 
   function songState(e) {
     e.stopPropagation();
-    playState ? (playState = false) : (playState = true);
-    console.log(playState);
+    playState ? setPlayState(false) : setPlayState(true);
   }
 
+  function playerState() {
+    return;
+  }
   if (!token) {
     return (
       <a
@@ -75,11 +89,15 @@ function App() {
               <div className="title">Lonely</div>
               <div className="artist">Akon</div>
             </div>
-            <div className="cv-image">
-              <img src={heart} alt="" className="icon" />
+            <div className="cv-image" onClick={favState}>
+              <Heart className="icon" />
             </div>
             <div className="cv-image" onClick={songState}>
-              <img src={play} alt="" className="icon" ref={playStateRef} />
+              {playState ? (
+                <Pause className="icon" />
+              ) : (
+                <Play className="icon" />
+              )}
             </div>
           </div>
         </section>
@@ -93,10 +111,10 @@ function App() {
                 id=""
                 onChange={() => console.log("hello")}
               />
-              <img src={search} alt="" className="icons" />
+              <Search className="icon" />
             </div>
             <div className="cv-image">
-              <img src={library} alt="" className="icons" />
+              <Library className="icon" />
             </div>
           </nav>
         </div>
@@ -238,14 +256,14 @@ function App() {
           </div>
         </section>
       </div>
-      <div className="player-container">
+      <div className="player-container" ref={showPlayer}>
         <div className="player-navbar">
           <div className="cv-image" onClick={playerContainer}>
-            <img src={hide} alt="" className="icon" />
+            <Hide className="icon" />
           </div>
           <div className="album">Album</div>
           <div className="cv-image">
-            <img src={share} alt="" className="icon" />
+            <Share className="icon" />
           </div>
         </div>
         <div className="cover-section">
@@ -256,15 +274,15 @@ function App() {
             <div className="title">Lonely</div>
             <div className="artist">Akon</div>
           </div>
-          <div className="cv-image">
-            <img src={heart} alt="" className="icon" />
+          <div className="cv-image" onClick={favState}>
+            <Heart className="icon" />
           </div>
         </section>
         <div className="song-duration">
           <input
             type="range"
             className="duration"
-            value="0"
+            defaultValue={0}
             min="0"
             max="100"
             onChange={duration}
@@ -276,13 +294,13 @@ function App() {
         </div>
         <div className="controller">
           <div className="cv-image">
-            <img src={preview} alt="" className="icon" />
+            <Preview className="icon" />
+          </div>
+          <div className="cv-image play" onClick={songState}>
+            {playState ? <Pause className="icon" /> : <Play className="icon" />}
           </div>
           <div className="cv-image">
-            <img src={play} alt="" className="icon play" />
-          </div>
-          <div className="cv-image">
-            <img src={next} alt="" className="icon" />
+            <Next className="icon" />
           </div>
         </div>
       </div>
