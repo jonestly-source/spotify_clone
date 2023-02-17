@@ -36,10 +36,10 @@ function App() {
 
     setToken(token);
   }, []);
-  
+
   useEffect(() => {
     playStateRef.current.src = playState ? { pause } : { play };
-  }, [token])
+  }, [token]);
 
   function duration(e) {
     console.log(e);
