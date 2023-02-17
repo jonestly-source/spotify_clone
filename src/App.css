@@ -12,16 +12,21 @@
   /*transition: 0.5s ease;*/
 }
 
+*:not(input) {
+  transition: 0.5s ease;
+}
+
 body,
 html {
   height: 100vh;
   width: 100vw;
-  overflow-x: hidden;
-  overflow-y: overlay;
+  overflow: hidden overlay;
   background: rgb(8, 13, 13);
-  background: linear-gradient(320deg,
-      rgba(8, 13, 13, 1) 68%,
-      rgba(27, 64, 64, 1) 100%);
+  background: linear-gradient(
+    320deg,
+    rgba(8, 13, 13, 1) 68%,
+    rgba(27, 64, 64, 1) 100%
+  );
   color: white;
 }
 
@@ -33,7 +38,7 @@ body {
 
 /* Chrome, Edge, and Safari */
 body::-webkit-scrollbar {
-  width: 10px;
+  width: 3px;
 }
 
 body::-webkit-scrollbar-track {
@@ -45,7 +50,6 @@ body::-webkit-scrollbar-thumb {
   border-radius: 10px;
 }
 
-
 .login-btn {
   position: absolute;
   top: 50%;
@@ -56,7 +60,7 @@ body::-webkit-scrollbar-thumb {
   font-size: 2em;
   background-image: linear-gradient(120deg, hsl(120 70% 40%), hsl(120 70% 30%));
   padding: 10px 20px;
-  border-radius: .2em;
+  border-radius: 0.2em;
   text-transform: uppercase;
   font-weight: bold;
   color: var(--font-color-primary);
@@ -65,6 +69,8 @@ body::-webkit-scrollbar-thumb {
 .main-container {
   height: auto;
   padding: 20px;
+  overflow-x: hidden;
+  overflow-y: overlay;
   display: flex;
   gap: 10px;
   flex-direction: column;
@@ -96,12 +102,12 @@ nav {
   margin-right: 10px;
 }
 
-nav>.cv-image:has(input) {
+nav > .cv-image:has(input) {
   position: relative;
 }
 
 h1,
-section>.title {
+section > .title {
   padding-top: 10px;
   font-size: 1.3em;
   font-weight: bold;
@@ -149,10 +155,11 @@ section>.title {
   justify-content: center;
 }
 
-nav>.cv-image {
+nav > .cv-image {
   background: none;
   height: auto;
   width: auto;
+  z-index: 1;
 }
 
 .lg {
@@ -189,7 +196,7 @@ nav>.cv-image {
   max-height: 200px;
 }
 
-.container>.category-title {
+.container > .category-title {
   font-size: 0.8em;
   color: hsl(0 0% 100% / 0.7);
   max-height: 50px;
@@ -239,33 +246,36 @@ nav>.cv-image {
   background: none;
   height: auto;
   width: auto;
-  z-index: 999999;
 }
 
-.player-wrapper>.song {
+.icon {
+  stroke: white;
+}
+
+.player-wrapper > .song {
   flex-grow: 1;
   margin: 10px;
 }
 
-.song>.title {
+.song > .title {
   font-weight: bold;
   font-size: 1em;
 }
 
-.song>.artist {
+.song > .artist {
   font-size: 0.6em;
   color: hsl(0 0% 100% / 0.7);
 }
 
 .player-container {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   overflow: hidden;
-  height: 100%;
+  height: 100dvh;
   width: 100vw;
   display: none;
-  justify-content: flex-start;
+  justify-content: center;
   flex-direction: column;
   background: linear-gradient(to bottom, hsl(0 0% 0% / 0.8), hsl(0 0% 0%));
   padding: 20px;
@@ -273,7 +283,7 @@ nav>.cv-image {
   z-index: 9999;
 }
 
-.player-container> :last-child {
+.player-container > :last-child {
   margin-bottom: 20px;
 }
 
@@ -286,14 +296,14 @@ nav>.cv-image {
   gap: 10px;
 }
 
-.cover-section> :is(.cv-image, .lyrics) {
+.cover-section > :is(.cv-image, .lyrics) {
   height: 300px;
   width: 300px;
 }
 
 .player-navbar,
 .controller,
-.player-container>section,
+.player-container > section,
 .time {
   display: flex;
   max-height: 50px;
@@ -339,12 +349,12 @@ input[type="range"]::-webkit-slider-runnable-track {
   padding: 15px;
 }
 
-.song-details>.title {
+.song-details > .title {
   font-weight: bold;
   font-size: 1.5em;
 }
 
-.song-details>.artist {
+.song-details > .artist {
   color: hsl(0 0% 100% / 0.7);
   font-size: 1em;
 }
