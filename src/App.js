@@ -86,14 +86,14 @@ function App() {
     spotify.getRecentlyPlayed().then((e) => setRecentlyPlayed(e));
     spotify.getNewRelease().then((el) => setNewRelease(el));
   }
-  
+
   if (date < 12) {
-      setGreetings("Hello Morning");
-    } else if (date < 18 && date >= 12) {
-      setGreetings("Good Afternoon");
-    } else if (date < 24 && date >= 18) {
-      setGreetings("Good Evening");
-    }
+    setGreetings("Hello Morning");
+  } else if (date < 18 && date >= 12) {
+    setGreetings("Good Afternoon");
+  } else if (date < 24 && date >= 18) {
+    setGreetings("Good Evening");
+  }
 
   function favState(e) {
     e.stopPropagation();
