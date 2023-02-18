@@ -9,16 +9,42 @@ import { ReactComponent as Search } from "./search.svg";
 import { ReactComponent as Share } from "./share.svg";
 import "./App.css";
 import { useEffect, useState, useRef } from "react";
+import * as spotify from "./Spotify";
 
 function App() {
   const CLIENT_ID = "6f948a1c7d894133992a9aaad8f196df";
   const REDIRECT_URI = "http://localhost:3000";
   const RESPONSE_TYPE = "token";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+  const SCOPES = [
+    "user-read-recently-played",
+    "user-top-read",
+    "user-read-playback-position",
+    "playlist-read-private",
+    "user-read-email",
+    "ugc-image-upload",
+    "user-read-playback-state",
+    "user-modify-playback-state",
+    "user-read-currently-playing",
+    "app-remote-control",
+    "streaming",
+    "playlist-read-collaborative",
+    "playlist-modify-private",
+    "playlist-modify-public",
+    "user-follow-modify",
+    "user-follow-read",
+    "user-library-modify",
+    "user-library-read",
+    "user-read-email",
+    "user-read-private",
+  ];
   const [token, setToken] = useState("");
-  const [playState, setPlayState] = useState(true);
+  const [playState, setPlayState] = useState(false);
   const [heartState, setHeartState] = useState(false);
   const showPlayer = useRef();
+  const today = new Date();
+  const hour = today.getHours();
+  const [greet, setGreet] = useState();
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -36,17 +62,33 @@ function App() {
     }
 
     setToken(token);
+    if (hour > 0 && hour < 12) {
+      setGreet("Good Morning");
+    } else if (hour > 11 && hour < 18) {
+      setGreet("Good Afternoon");
+    } else if (hour > 17) {
+      setGreet("Good Evening");
+    }
   }, []);
 
   function duration(e) {
     document.body.style.setProperty("--duration", `${e.target.value}%`);
-    console.log(e.target.value);
   }
 
   function playerContainer() {
-    showPlayer.current.style.display == "flex"
-      ? (showPlayer.current.style.display = "none")
-      : (showPlayer.current.style.display = "flex");
+    if (showPlayer.current.style.display == "flex") {
+      showPlayer.current.style.display = "none";
+      document.body.style.setProperty("--overflow", "overlay");
+      document.body.style.setProperty("--height", "initial");
+    } else {
+      showPlayer.current.style.display = "flex";
+      document.body.style.setProperty("--overflow", "hidden");
+      document.body.style.setProperty("--height", "100svh");
+    }
+  }
+
+  if (token) {
+    spotify.theToken(token);
   }
 
   function favState(e) {
@@ -58,7 +100,6 @@ function App() {
       e.target.style.fill = "white";
       setHeartState(true);
     }
-    console.log(Heart);
   }
 
   function songState(e) {
@@ -73,7 +114,9 @@ function App() {
     return (
       <a
         className="login-btn"
-        href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
+        href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPES.join(
+          "%20"
+        )}`}
       >
         Login to Spotify
       </a>
@@ -102,15 +145,9 @@ function App() {
           </div>
         </section>
         <div className="top-bar">
-          <h1>Good Afternoon</h1>
+          <h1>{greet}</h1>
           <nav>
             <div className="cv-image">
-              <input
-                type="search"
-                name=""
-                id=""
-                onChange={() => console.log("hello")}
-              />
               <Search className="icon" />
             </div>
             <div className="cv-image">
