@@ -44,13 +44,14 @@ export async function getNewRelease() {
     }
   );
   if (data) {
+    // console.log(data.albums.items)
     const songDetails = data.albums.items.map((e) => {
       return {
         title: e.name,
         uri: e.uri,
         albumUrl: e.images[0].url,
         albumType: e.album_type,
-        artists: e.artists[0].external_urls.name,
+        artists: [e.artists.map((e) => e.name)],
       };
     });
     return songDetails;

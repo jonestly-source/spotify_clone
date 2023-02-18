@@ -3,7 +3,8 @@
   --font-color-primary: hsl(120 3% 86%);
   --overflow: overlay;
   --height: initial;
-  --nickname: "User";
+  --player-color: hsl(340 60% 30%);
+
   --dur-bar-color: hsl(0 0% 60%);
 }
 
@@ -141,6 +142,7 @@ section > .title {
   align-items: center;
   gap: 10px;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .category-title {
@@ -175,6 +177,17 @@ nav > .cv-image {
 .lg {
   min-height: 150px;
   aspect-ratio: 1 / 1;
+  position: relative;
+}
+
+.albumType {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 20%;
+  width: 20%;
+  background-color: hsl(0 0% 0% / 0.2);
+  padding: 5px;
 }
 
 .categories {
@@ -194,6 +207,7 @@ nav > .cv-image {
   align-items: center;
   justify-content: flex-start;
   gap: 10px;
+  height: 100%;
 }
 
 .category::-webkit-scrollbar {
@@ -205,6 +219,7 @@ nav > .cv-image {
   flex-direction: column;
   gap: 10px;
   max-height: 200px;
+  cursor: pointer;
 }
 
 .container > .category-title {
@@ -233,7 +248,7 @@ nav > .cv-image {
   align-items: center;
   width: 100%;
   height: 50px;
-  background: hsl(340 60% 30%);
+  background: var(--player-color);
   border-radius: 0.3em;
   overflow: hidden;
   gap: 10px;
@@ -289,7 +304,7 @@ nav > .cv-image {
   display: none;
   justify-content: center;
   flex-direction: column;
-  background: linear-gradient(to bottom, hsl(0 0% 0% / 0.8), hsl(0 0% 0%));
+  background: linear-gradient(to bottom, hsl(0 0% 0% / 0.8), hsl(0 0% 0%) 70%, var(--player-color) 100%);
   padding: 20px;
   gap: 10px;
   z-index: 9999;
@@ -352,11 +367,11 @@ input[type="range"]::-webkit-slider-runnable-track {
 
 .controller {
   justify-content: center;
-  gap: 35px;
+  gap: 15px;
 }
 
 .controller .play {
-  background: hsl(190 40% 5%);
+  background: hsl(190 40% 5% / 0.5);
   border-radius: 50%;
   padding: 15px;
 }

@@ -6,14 +6,17 @@ import { ReactComponent as Play } from "./play.svg";
 import { ReactComponent as Preview } from "./preview.svg";
 import { ReactComponent as Search } from "./search.svg";
 import { ReactComponent as Share } from "./share.svg";
+import { ReactComponent as Shuffle } from "./shuffle.svg";
+import { ReactComponent as Repeat } from "./repeat.svg";
+
 import "./App.css";
 import { useEffect, useState, useRef } from "react";
 import * as spotify from "./Spotify";
 import RecentTracks from "./RecentTracks";
-import { NewSingles, NewAlbums } from "./NewRelease";
+import { NewSingles, NewAlbums, NewCompilation } from "./Categories";
 
 function App() {
-  const CLIENT_ID = "6f948a1c7d894133992a9aaad8f196df";
+  const CLIENT_ID = "439afd212dd8456e821b2b1676e94832";
   const REDIRECT_URI = "http://localhost:3000";
   const RESPONSE_TYPE = "token";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
@@ -44,11 +47,12 @@ function App() {
   const [newRelease, setNewRelease] = useState([]);
   const [playState, setPlayState] = useState(false);
   const [heartState, setHeartState] = useState(false);
-  const [greetings, setGreetings] = useState("Good Morning");
-  const date = new Date().getHour;
+  const [greetings, setGreetings] = useState("");
+  
   const showPlayer = useRef();
 
   useEffect(() => {
+    const date = new Date().getHours();
     const hash = window.location.hash;
     let token = window.localStorage.getItem("token");
 
@@ -61,6 +65,13 @@ function App() {
 
       window.location.hash = "";
       window.localStorage.setItem("token", token);
+    }
+    if (date < 12) {
+      setGreetings("Good Morning");
+    } else if (date < 18) {
+      setGreetings("Good Afternoon");
+    } else if (date < 24) {
+      setGreetings("Good Evening");
     }
     setToken(token);
   }, []);
@@ -87,23 +98,10 @@ function App() {
     spotify.getNewRelease().then((el) => setNewRelease(el));
   }
 
-  if (date < 12) {
-    setGreetings("Hello Morning");
-  } else if (date < 18 && date >= 12) {
-    setGreetings("Good Afternoon");
-  } else if (date < 24 && date >= 18) {
-    setGreetings("Good Evening");
-  }
 
   function favState(e) {
     e.stopPropagation();
-    if (e.target.style.fill === "white" && heartState) {
-      e.target.style.fill = "transparent";
-      setHeartState(false);
-    } else {
-      e.target.style.fill = "white";
-      setHeartState(true);
-    }
+    heartState ? setHeartState(false) : setHeartState(true);
   }
 
   function songState(e) {
@@ -134,7 +132,7 @@ function App() {
               <div className="artist">Akon</div>
             </div>
             <div className="cv-image" onClick={favState}>
-              <Heart className="icon" />
+              <Heart className="icon" fill={heartState ? "white" : "transparent"}/>
             </div>
             <div className="cv-image" onClick={songState}>
               {playState ? (
@@ -177,38 +175,9 @@ function App() {
         <section className="categories likes">
           <div className="title">Recenly Played</div>
           <div className="category">
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">
-                Harry Styles, Bad Bunny, Taylor Swift, Rex Orange County
-              </div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">
-                Bruno Mars, Lady Gaga, Ben&Ben, Natoy, Burikit
-              </div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
+            {newRelease.map((track) => (
+              <NewCompilation track={track} uri={track.uri} />
+            ))}
           </div>
         </section>
       </div>
@@ -231,7 +200,7 @@ function App() {
             <div className="artist">Akon</div>
           </div>
           <div className="cv-image" onClick={favState}>
-            <Heart className="icon" />
+            <Heart className="icon" fill={heartState ? "white" : "transparent"}/>
           </div>
         </section>
         <div className="song-duration">
@@ -249,6 +218,9 @@ function App() {
           </div>
         </div>
         <div className="controller">
+          <div className="cv-image" style={{marginRight: "auto"}}>
+            <Shuffle className="icon" />
+          </div>
           <div className="cv-image">
             <Preview className="icon" />
           </div>
@@ -257,6 +229,9 @@ function App() {
           </div>
           <div className="cv-image">
             <Next className="icon" />
+          </div>
+          <div className="cv-image" style={{marginLeft: "auto"}}>
+            <Repeat className="icon" />
           </div>
         </div>
       </div>
