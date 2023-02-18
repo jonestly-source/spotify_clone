@@ -1,6 +1,5 @@
 import { ReactComponent as Heart } from "./heart.svg";
 import { ReactComponent as Hide } from "./hide.svg";
-import { ReactComponent as Library } from "./library.svg";
 import { ReactComponent as Next } from "./next.svg";
 import { ReactComponent as Pause } from "./pause.svg";
 import { ReactComponent as Play } from "./play.svg";
@@ -10,6 +9,8 @@ import { ReactComponent as Share } from "./share.svg";
 import "./App.css";
 import { useEffect, useState, useRef } from "react";
 import * as spotify from "./Spotify";
+import RecentTracks from "./RecentTracks";
+import { NewSingles, NewAlbums } from "./NewRelease";
 
 function App() {
   const CLIENT_ID = "6f948a1c7d894133992a9aaad8f196df";
@@ -39,12 +40,13 @@ function App() {
     "user-read-private",
   ];
   const [token, setToken] = useState("");
+  const [recentlyPlayed, setRecentlyPlayed] = useState([]);
+  const [newRelease, setNewRelease] = useState([]);
   const [playState, setPlayState] = useState(false);
   const [heartState, setHeartState] = useState(false);
+  const [greetings, setGreetings] = useState("Good Morning");
+  const date = new Date().getHour;
   const showPlayer = useRef();
-  const today = new Date();
-  const hour = today.getHours();
-  const [greet, setGreet] = useState();
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -60,15 +62,7 @@ function App() {
       window.location.hash = "";
       window.localStorage.setItem("token", token);
     }
-
     setToken(token);
-    if (hour > 0 && hour < 12) {
-      setGreet("Good Morning");
-    } else if (hour > 11 && hour < 18) {
-      setGreet("Good Afternoon");
-    } else if (hour > 17) {
-      setGreet("Good Evening");
-    }
   }, []);
 
   function duration(e) {
@@ -76,7 +70,7 @@ function App() {
   }
 
   function playerContainer() {
-    if (showPlayer.current.style.display == "flex") {
+    if (showPlayer.current.style.display === "flex") {
       showPlayer.current.style.display = "none";
       document.body.style.setProperty("--overflow", "overlay");
       document.body.style.setProperty("--height", "initial");
@@ -89,11 +83,21 @@ function App() {
 
   if (token) {
     spotify.theToken(token);
+    spotify.getRecentlyPlayed().then((e) => setRecentlyPlayed(e));
+    spotify.getNewRelease().then((el) => setNewRelease(el));
+  }
+
+  if (date < 12) {
+    setGreetings("Hello Morning");
+  } else if (date < 18 && date >= 12) {
+    setGreetings("Good Afternoon");
+  } else if (date < 24 && date >= 18) {
+    setGreetings("Good Evening");
   }
 
   function favState(e) {
     e.stopPropagation();
-    if (e.target.style.fill == "white" && heartState) {
+    if (e.target.style.fill === "white" && heartState) {
       e.target.style.fill = "transparent";
       setHeartState(false);
     } else {
@@ -107,9 +111,6 @@ function App() {
     playState ? setPlayState(false) : setPlayState(true);
   }
 
-  function playerState() {
-    return;
-  }
   if (!token) {
     return (
       <a
@@ -145,114 +146,32 @@ function App() {
           </div>
         </section>
         <div className="top-bar">
-          <h1>{greet}</h1>
+          <h1>{greetings}</h1>
           <nav>
             <div className="cv-image">
               <Search className="icon" />
             </div>
-            <div className="cv-image">
-              <Library className="icon" />
-            </div>
           </nav>
         </div>
         <section className="recent-play">
-          <div className="tiles">
-            <div className="cv-image"></div>
-            <div className="category-title">Pasilyo</div>
-          </div>
-          <div className="tiles">
-            <div className="cv-image"></div>
-            <div className="category-title">Liked Songs</div>
-          </div>
-          <div className="tiles">
-            <div className="cv-image"></div>
-            <div className="category-title">It's a Hit</div>
-          </div>
-          <div className="tiles">
-            <div className="cv-image"></div>
-            <div className="category-title">Viral Hits</div>
-          </div>
-          <div className="tiles">
-            <div className="cv-image"></div>
-            <div className="category-title">Drunk Text</div>
-          </div>
-          <div className="tiles">
-            <div className="cv-image"></div>
-            <div className="category-title">New Music Friday Phillipines</div>
+          {recentlyPlayed.map((track) => (
+            <RecentTracks track={track} uri={track.uri} />
+          ))}
+        </section>
+        <section className="categories">
+          <div className="title">New Singles</div>
+          <div className="category">
+            {newRelease.map((track) => (
+              <NewSingles track={track} uri={track.uri} />
+            ))}
           </div>
         </section>
-        <section className="categories likes">
-          <div className="title">More of what you like</div>
+        <section className="categories">
+          <div className="title">New Albums</div>
           <div className="category">
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">
-                Harry Styles, Bad Bunny, Taylor Swift, Rex Orange County
-              </div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">
-                Bruno Mars, Lady Gaga, Ben&Ben, Natoy, Burikit
-              </div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
-          </div>
-        </section>
-        <section className="categories likes">
-          <div className="title">Torjak</div>
-          <div className="category">
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">
-                Harry Styles, Bad Bunny, Taylor Swift, Rex Orange County
-              </div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">
-                Bruno Mars, Lady Gaga, Ben&Ben, Natoy, Burikit
-              </div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
-            <div className="container">
-              <div className="cv-image lg"></div>
-              <div className="category-title">Bruno Mars</div>
-            </div>
+            {newRelease.map((track) => (
+              <NewAlbums track={track} uri={track.uri} />
+            ))}
           </div>
         </section>
         <section className="categories likes">
