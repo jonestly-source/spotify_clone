@@ -45,7 +45,7 @@ export async function getNewRelease() {
     }
   );
   if (data) {
-    // console.log(data.albums.items)
+    console.log(data.albums.items)
     const songDetails = data.albums.items.map((e) => {
       return {
         title: e.name,

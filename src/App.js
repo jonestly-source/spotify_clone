@@ -8,6 +8,7 @@ import { ReactComponent as Search } from "./search.svg";
 import { ReactComponent as Share } from "./share.svg";
 import { ReactComponent as Shuffle } from "./shuffle.svg";
 import { ReactComponent as Repeat } from "./repeat.svg";
+// eslint-disable-next-line
 import { ReactComponent as Single } from "./single.svg";
 import { average } from "color.js";
 import "./App.css";
@@ -17,7 +18,7 @@ import RecentTracks from "./RecentTracks";
 import { NewRelease } from "./Categories";
 
 function App() {
-  const CLIENT_ID = "439afd212dd8456e821b2b1676e94832";
+  const CLIENT_ID = "6f948a1c7d894133992a9aaad8f196df";
   const REDIRECT_URI = "http://localhost:3000";
   const RESPONSE_TYPE = "token";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
@@ -52,6 +53,8 @@ function App() {
   const [playerWrapper, setPlayerWrapper] = useState(true);
   const [currentTime, setcurrentTime] = useState("0:00")
   const [totalDur, setTotalDur] = useState("0:00")
+  const [shuffleState, setShuffleState] = useState(false)
+  const [repeatState, setRepeatState] = useState()
 
   const showPlayer = useRef();
 
@@ -78,6 +81,13 @@ function App() {
       setGreetings("Good Evening");
     }
     setToken(token);
+    if (token) {
+      spotify.theToken(token);
+      spotify.getRecentlyPlayed().then((e) => setRecentlyPlayed(e));
+      spotify.getNewRelease().then((el) => setNewRelease(el));
+    }
+    setcurrentTime("0:00")
+    setTotalDur("0:00")
   }, []);
 
   average("https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg", { format: "hex" }).then(color => document.body.style.setProperty("--player-color", color))
@@ -86,7 +96,8 @@ function App() {
     document.body.style.setProperty("--duration", `${e.target.value}%`);
   }
 
-  function playerContainer() {
+  const playerContainer = (e) => {
+    e.stopPropagation()
     if (showPlayer.current.style.display === "flex") {
       showPlayer.current.style.display = "none";
       document.body.style.setProperty("--overflow", "overlay");
@@ -100,19 +111,15 @@ function App() {
     }
   }
 
-  if (token) {
-    spotify.theToken(token);
-    spotify.getRecentlyPlayed().then((e) => setRecentlyPlayed(e));
-    spotify.getNewRelease().then((el) => setNewRelease(el));
-  }
 
 
-  function favState(e) {
+
+  const favState = (e) => {
     e.stopPropagation();
     heartState ? setHeartState(false) : setHeartState(true);
   }
 
-  function songState(e) {
+  const songState= (e) => {
     e.stopPropagation();
     playState ? setPlayState(false) : setPlayState(true);
   }
@@ -135,7 +142,7 @@ function App() {
         <section className="player" onClick={playerContainer} style={{ display: playerWrapper ? "flex" : "none" }}>
           <div className="player-wrapper">
             <div className="cv-image">
-              <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" />
+              <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely"/>
             </div>
             <div className="song">
               <div className="title">Lonely</div>
@@ -165,7 +172,7 @@ function App() {
           {recentlyPlayed.map((track) => (
             <RecentTracks track={track} uri={track.uri} />
           ))}
-          <div className='tiles'>
+          {/* <div className='tiles'>
             <div className='cv-image'>
               <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
             </div>
@@ -200,7 +207,7 @@ function App() {
               <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
             </div>
             <div className='category-title'>Lonely</div>
-          </div>
+          </div> */}
         </section>
         <section className="categories">
           <div className="title">New Released</div>
@@ -208,7 +215,7 @@ function App() {
             {newRelease.map((track) => (
               <NewRelease track={track} uri={track.uri} />
             ))}
-            <div className="container">
+            {/* <div className="container">
               <div className="cv-image lg">
                 <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
                 <Single className="albumType" />
@@ -257,7 +264,7 @@ function App() {
                 Lonely
               </div>
               <div className='category-artists'>{["Akon", "Shaqtin"].join(", ")}</div>
-            </div>
+            </div> */}
           </div>
         </section>
       </div>
@@ -300,8 +307,8 @@ function App() {
             </div>
           </div>
           <div className="controller">
-            <div className="cv-image" style={{ marginRight: "auto" }}>
-              <Shuffle className="icon" />
+            <div className="cv-image" style={{ marginRight: "auto" }} onClick={shuffleState ? () => setShuffleState(false) : () => setShuffleState(true)} >
+              <Shuffle className="icon" aria-selected={shuffleState}/>
             </div>
             <div className="cv-image">
               <Preview className="icon" />

@@ -7,41 +7,14 @@ export function NewRelease({ track }) {
     <div className="container">
       <div className="cv-image lg">
         <img src={track.albumUrl} alt={track.title} />
-        {track.albumType === "single" ? <Single className="albumType"/> : track.albumType === "album" ? <Album className="albumType"/> : <Compilation className="albumType"/>}
+        {track.albumType === "single" ? <Single className="albumType" /> : track.albumType === "album" ? <Album className="albumType" /> : <Compilation className="albumType" />}
       </div>
-      <div className="category-title">
-        {track.title}
+      <div className="song-details">
+        <div className="category-title">
+          {track.title}
+        </div>
+        <div className='category-artists'>{track.artists.join(" ")}</div>
       </div>
-      <div className='category-artists'>{track.artists.join(", ")}</div>
     </div>
   )
-}
-
-export function NewAlbums({ track }) {
-  if (track.albumType === 'album') {
-  return (
-    <div className="container">
-      <div className="cv-image lg">
-        <img src={track.albumUrl} alt={track.title} />
-        <Album className="albumType"/>
-      </div>
-      <div className="category-title">
-        {track.title}
-      </div>
-    </div>
-  )}
-}
-
-export function NewCompilation({ track }) {
-  if (track.albumType === 'compilation') {
-  return (
-    <div className="container">
-      <div className="cv-image lg">
-        <img src={track.albumUrl} alt={track.title} />
-      </div>
-      <div className="category-title">
-        {track.title}
-      </div>
-    </div>
-  )}
 }
