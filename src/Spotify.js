@@ -24,6 +24,7 @@ export async function getRecentlyPlayed() {
         title: track.track.name,
         uri: track.track.uri,
         albumUrl: track.track.album.images[0].url,
+        artists: [track.track.artists.map((e) => e.name)]
       };
     });
     return songDetails;

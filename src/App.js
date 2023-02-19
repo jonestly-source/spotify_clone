@@ -8,12 +8,13 @@ import { ReactComponent as Search } from "./search.svg";
 import { ReactComponent as Share } from "./share.svg";
 import { ReactComponent as Shuffle } from "./shuffle.svg";
 import { ReactComponent as Repeat } from "./repeat.svg";
-
+import { ReactComponent as Single } from "./single.svg";
+import { average } from "color.js";
 import "./App.css";
 import { useEffect, useState, useRef } from "react";
 import * as spotify from "./Spotify";
 import RecentTracks from "./RecentTracks";
-import { NewSingles, NewAlbums, NewCompilation } from "./Categories";
+import { NewRelease } from "./Categories";
 
 function App() {
   const CLIENT_ID = "439afd212dd8456e821b2b1676e94832";
@@ -48,7 +49,10 @@ function App() {
   const [playState, setPlayState] = useState(false);
   const [heartState, setHeartState] = useState(false);
   const [greetings, setGreetings] = useState("");
-  
+  const [playerWrapper, setPlayerWrapper] = useState(true);
+  const [currentTime, setcurrentTime] = useState("0:00")
+  const [totalDur, setTotalDur] = useState("0:00")
+
   const showPlayer = useRef();
 
   useEffect(() => {
@@ -76,6 +80,8 @@ function App() {
     setToken(token);
   }, []);
 
+  average("https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg", { format: "hex" }).then(color => document.body.style.setProperty("--player-color", color))
+
   function duration(e) {
     document.body.style.setProperty("--duration", `${e.target.value}%`);
   }
@@ -85,10 +91,12 @@ function App() {
       showPlayer.current.style.display = "none";
       document.body.style.setProperty("--overflow", "overlay");
       document.body.style.setProperty("--height", "initial");
+      setPlayerWrapper(true)
     } else {
       showPlayer.current.style.display = "flex";
       document.body.style.setProperty("--overflow", "hidden");
       document.body.style.setProperty("--height", "100svh");
+      setPlayerWrapper(false)
     }
   }
 
@@ -124,15 +132,17 @@ function App() {
   return (
     <div className="App">
       <div className="main-container">
-        <section className="player" onClick={playerContainer}>
+        <section className="player" onClick={playerContainer} style={{ display: playerWrapper ? "flex" : "none" }}>
           <div className="player-wrapper">
-            <div className="cv-image"></div>
+            <div className="cv-image">
+              <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" />
+            </div>
             <div className="song">
               <div className="title">Lonely</div>
               <div className="artist">Akon</div>
             </div>
             <div className="cv-image" onClick={favState}>
-              <Heart className="icon" fill={heartState ? "white" : "transparent"}/>
+              <Heart className="icon" fill={heartState ? "white" : "transparent"} />
             </div>
             <div className="cv-image" onClick={songState}>
               {playState ? (
@@ -155,85 +165,157 @@ function App() {
           {recentlyPlayed.map((track) => (
             <RecentTracks track={track} uri={track.uri} />
           ))}
-        </section>
-        <section className="categories">
-          <div className="title">New Singles</div>
-          <div className="category">
-            {newRelease.map((track) => (
-              <NewSingles track={track} uri={track.uri} />
-            ))}
+          <div className='tiles'>
+            <div className='cv-image'>
+              <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
+            </div>
+            <div className='category-title'>Lonely</div>
+          </div>
+          <div className='tiles'>
+            <div className='cv-image'>
+              <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
+            </div>
+            <div className='category-title'>Lonely</div>
+          </div>
+          <div className='tiles'>
+            <div className='cv-image'>
+              <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
+            </div>
+            <div className='category-title'>Lonely</div>
+          </div>
+          <div className='tiles'>
+            <div className='cv-image'>
+              <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
+            </div>
+            <div className='category-title'>Lonely</div>
+          </div>
+          <div className='tiles'>
+            <div className='cv-image'>
+              <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
+            </div>
+            <div className='category-title'>Lonely</div>
+          </div>
+          <div className='tiles'>
+            <div className='cv-image'>
+              <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
+            </div>
+            <div className='category-title'>Lonely</div>
           </div>
         </section>
         <section className="categories">
-          <div className="title">New Albums</div>
+          <div className="title">New Released</div>
           <div className="category">
             {newRelease.map((track) => (
-              <NewAlbums track={track} uri={track.uri} />
+              <NewRelease track={track} uri={track.uri} />
             ))}
-          </div>
-        </section>
-        <section className="categories likes">
-          <div className="title">Recenly Played</div>
-          <div className="category">
-            {newRelease.map((track) => (
-              <NewCompilation track={track} uri={track.uri} />
-            ))}
+            <div className="container">
+              <div className="cv-image lg">
+                <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
+                <Single className="albumType" />
+              </div>
+              <div className="category-title">
+                Lonely shaihawda
+              </div>
+              <div className='category-artists'>{["Akon", "Shaqtin"].join(", ")}</div>
+            </div>
+            <div className="container">
+              <div className="cv-image lg">
+                <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
+                <Single className="albumType" />
+              </div>
+              <div className="category-title">
+                Lonely
+              </div>
+              <div className='category-artists'>{["Akon", "Shaqtin"].join(", ")}</div>
+            </div>
+            <div className="container">
+              <div className="cv-image lg">
+                <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
+                <Single className="albumType" />
+              </div>
+              <div className="category-title">
+                Lonely
+              </div>
+              <div className='category-artists'>{["Akon", "Shaqtin"].join(", ")}</div>
+            </div>
+            <div className="container">
+              <div className="cv-image lg">
+                <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
+                <Single className="albumType" />
+              </div>
+              <div className="category-title">
+                Lonely
+              </div>
+              <div className='category-artists'>{["Akon", "Shaqtin"].join(", ")}</div>
+            </div>
+            <div className="container">
+              <div className="cv-image lg">
+                <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
+                <Single className="albumType" />
+              </div>
+              <div className="category-title">
+                Lonely
+              </div>
+              <div className='category-artists'>{["Akon", "Shaqtin"].join(", ")}</div>
+            </div>
           </div>
         </section>
       </div>
       <div className="player-container" ref={showPlayer}>
-        <div className="player-navbar">
-          <div className="cv-image" onClick={playerContainer}>
-            <Hide className="icon" />
+          <div className="player-navbar">
+            <div className="cv-image" onClick={playerContainer}>
+              <Hide className="icon" />
+            </div>
+            <div className="album">Album</div>
+            <div className="cv-image">
+              <Share className="icon" />
+            </div>
           </div>
-          <div className="album">Album</div>
-          <div className="cv-image">
-            <Share className="icon" />
+          <div className="cover-section">
+            <div className="cv-image lg">
+              <img src="https://upload.wikimedia.org/wikipedia/en/3/35/Akon-Lonely.jpg" alt="Lonely" />
+            </div>
           </div>
-        </div>
-        <div className="cover-section">
-          <div className="cv-image lg"></div>
-        </div>
-        <section>
-          <div className="song-details">
-            <div className="title">Lonely</div>
-            <div className="artist">Akon</div>
+          <section>
+            <div className="song-details">
+              <div className="title">Lonely</div>
+              <div className="artist">Akon</div>
+            </div>
+            <div className="cv-image" onClick={favState}>
+              <Heart className="icon" fill={heartState ? "white" : "transparent"} />
+            </div>
+          </section>
+          <div className="song-duration">
+            <input
+              type="range"
+              className="duration"
+              defaultValue={0}
+              min="0"
+              max="100"
+              onChange={duration}
+            />
+            <div className="time">
+              <div className="current-time">{currentTime}</div>
+              <div className="total-time">{totalDur}</div>
+            </div>
           </div>
-          <div className="cv-image" onClick={favState}>
-            <Heart className="icon" fill={heartState ? "white" : "transparent"}/>
+          <div className="controller">
+            <div className="cv-image" style={{ marginRight: "auto" }}>
+              <Shuffle className="icon" />
+            </div>
+            <div className="cv-image">
+              <Preview className="icon" />
+            </div>
+            <div className="cv-image play" onClick={songState}>
+              {playState ? <Pause className="icon" /> : <Play className="icon" />}
+            </div>
+            <div className="cv-image">
+              <Next className="icon" />
+            </div>
+            <div className="cv-image" style={{ marginLeft: "auto" }}>
+              <Repeat className="icon" />
+            </div>
           </div>
-        </section>
-        <div className="song-duration">
-          <input
-            type="range"
-            className="duration"
-            defaultValue={0}
-            min="0"
-            max="100"
-            onChange={duration}
-          />
-          <div className="time">
-            <div className="current-time">0:00</div>
-            <div className="total-time">0:00</div>
-          </div>
-        </div>
-        <div className="controller">
-          <div className="cv-image" style={{marginRight: "auto"}}>
-            <Shuffle className="icon" />
-          </div>
-          <div className="cv-image">
-            <Preview className="icon" />
-          </div>
-          <div className="cv-image play" onClick={songState}>
-            {playState ? <Pause className="icon" /> : <Play className="icon" />}
-          </div>
-          <div className="cv-image">
-            <Next className="icon" />
-          </div>
-          <div className="cv-image" style={{marginLeft: "auto"}}>
-            <Repeat className="icon" />
-          </div>
-        </div>
       </div>
     </div>
   );
