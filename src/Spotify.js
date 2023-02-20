@@ -24,12 +24,12 @@ export async function getRecentlyPlayed() {
         title: track.track.name,
         uri: track.track.uri,
         albumUrl: track.track.album.images[0].url,
-        artists: track.track.artists.map((data) => data.name).join(', '),
+        artists: track.track.artists.map((data) => data.name).join(", "),
       };
     });
     return songDetails;
   } else {
-    return null
+    return null;
   }
 }
 
@@ -54,12 +54,12 @@ export async function getNewRelease() {
         uri: data.uri,
         albumUrl: data.images[0].url,
         albumType: data.album_type,
-        artists: [data.artists.map((data) => data.name)],
+        artists: data.artists.map((data) => data.name).join(', '),
       };
     });
     return songDetails;
   } else {
-    return null
+    return null;
   }
 }
 
@@ -96,15 +96,15 @@ export const getNowPlaying = async () => {
       title: data.item.name,
       uri: data.item.uri,
       albumUrl: data.item.album.images[1].url,
-      artists: [data.item.artists.map((data) => data.name)],
+      artists: data.item.artists.map((data) => data.name).join(', '),
       playingType: data.currently_playing_type,
       duration: data.item.duration_ms,
       isPlaying: data.is_playing,
-      progress: data.progress_ms
-    }
+      progress: data.progress_ms,
+    };
     return songDetails;
   }
-  return null
+  return null;
 };
 
 export const getCategory = async () => {
@@ -117,18 +117,18 @@ export const getCategory = async () => {
     }
   );
 
-  if(data) {
+  if (data) {
     return data.categories.items.map((item) => {
       return {
         title: item.name,
         link: item.href,
-        iconUrl: item.icons[0].url
-      }
-    })
+        iconUrl: item.icons[0].url,
+      };
+    });
   } else {
-    return null
+    return null;
   }
-}
+};
 
 export const getFeaturedPlaylists = async () => {
   const { data } = await axios.get(
@@ -140,44 +140,41 @@ export const getFeaturedPlaylists = async () => {
     }
   );
 
-  if(data) {
+  if (data) {
     return data.playlists.items.map((item) => {
       return {
         message: data.message,
         title: item.name,
         uri: item.uri,
         playlistsUrl: item.images[0].url,
-        description: item.description
-      }
-    })
+        description: item.description,
+      };
+    });
   } else {
-    return null
+    return null;
   }
-}
+};
 
 export const getTopItems = async () => {
-  const { data } = await axios.get(
-    "https://api.spotify.com/v1/me/top/tracks",
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+  const { data } = await axios.get("https://api.spotify.com/v1/me/top/tracks", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-  if(data) {
+  if (data) {
     return data.items.map((item) => {
       return {
         title: item.name,
         uri: item.uri,
         albumUrl: item.album.images[1].url,
-        artists: [item.artists.map((artist) => artist.name)]
-      }
-    })
+        artists: item.artists.map((artist) => artist.name).join(', '),
+      };
+    });
   } else {
-    return null
+    return null;
   }
-}
+};
 
 export const categoryPlaylist = async (categoryId) => {
   const { data } = await axios.get(
@@ -189,47 +186,43 @@ export const categoryPlaylist = async (categoryId) => {
     }
   );
 
-  if(data) {
+  if (data) {
     return data.items.map((item) => {
       return {
         title: item.name,
         uri: item.uri,
         albumUrl: item.album.images[1].url,
-        artists: [item.artists.map((artist) => artist.name)]
-      }
-    })
+        artists: item.artists.map((artist) => artist.name).join(', '),
+      };
+    });
   } else {
-    return null
+    return null;
   }
-}
+};
 
 export const getFollowedArtists = async () => {
-  const { data } = await axios.get(
-    "https://api.spotify.com/v1/me/following",
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        type: "artist",
-      }
-    }
-  );
+  const { data } = await axios.get("https://api.spotify.com/v1/me/following", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      type: "artist",
+    },
+  });
 
-  if(data) {
+  if (data) {
     return data.artists.items.map((item) => {
       return {
         name: item.name,
         uri: item.uri,
         imageUrl: item.images[1].url,
-        genres: item.genres.map(g => g).join(', ')
-      }
-    })
+        genres: item.genres.map((g) => g).join(", "),
+      };
+    });
   } else {
-    return null
+    return null;
   }
-}
-
+};
 
 export function msToTime(ms) {
   return new Date(ms).toISOString().slice(14, 19);
