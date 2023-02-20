@@ -160,7 +160,8 @@ section > .title {
   font-weight: bold;
 }
 
-.category .category-artists, .artists {
+.category .category-artists,
+.artist {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
