@@ -80,7 +80,7 @@ img {
 
 .main-container {
   height: auto;
-  padding: 20px;
+  padding: 20px max(20px, 3vw);
   display: flex;
   gap: 10px;
   flex-direction: column;
@@ -136,7 +136,7 @@ section>.title {
 }
 
 .tiles {
-  width: max(155px, 100vw / 3 - 20px);
+  width: max(155px, 100vw / 3 - 3vw);
   height: max(50px, 5vw);
   border-radius: 5px;
   background: hsl(120 100% 3%);
@@ -148,7 +148,7 @@ section>.title {
   cursor: pointer;
 }
 
-.category-title, .category-artists {
+.category-title, .category-artists, .title {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -236,6 +236,7 @@ nav>.cv-image {
   display: flex;
   flex-direction: column;
   max-height: max-content;
+  flex-grow: 1;
 }
 
 .container {
@@ -410,17 +411,19 @@ nav>.cv-image {
   background-image: linear-gradient(var(--primary-color), var(--primary-color));
 }
 
+
 [type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 13px;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  background: transparent;
+  background: white;
   cursor: pointer;
+  display: none;
 }
 
-[type="range"]::-webkit-slider-thumb:hover {
-  background: white;
+[type="range"]:hover::-webkit-slider-thumb {
+  display: block;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {

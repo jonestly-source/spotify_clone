@@ -18,3 +18,53 @@ export function NewRelease({ track }) {
     </div>
   )
 }
+
+export function Category({ category }) {
+  return (
+    <div className="container" href={category.link}>
+      <div className="cv-image lg">
+        <img src={category.iconUrl} alt={category.title} />
+      </div>
+      <div className="song-details">
+        <div className="category-title">
+          {category.title}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export function FeaturedPlaylists({ playlists }) {
+  return (
+    <div className="container" href={playlists.uri}>
+      <div className="cv-image lg">
+        <img src={playlists.playlistsUrl} alt={playlists.title} />
+      </div>
+      <div className="song-details">
+        <div className="category-title">
+          {playlists.title}
+        </div>
+        <div className="category-artists">
+          {playlists.description}
+        </div>
+      </div>
+    </div>
+  )
+}
+export function TopItems({ track }) {
+  return (
+    <div className="container" href={track.uri}>
+      <div className="cv-image lg">
+        <img src={track.albumUrl} alt={track.title} />
+      </div>
+      <div className="song-details">
+        <div className="category-title">
+          {track.title}
+        </div>
+        <div className="category-artists">
+          {track.artists.join(', ')}
+        </div>
+      </div>
+    </div>
+  )
+}
