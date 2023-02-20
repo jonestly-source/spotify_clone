@@ -6,7 +6,7 @@ export default function RecentTracks({ track }) {
       </div>
       <div className="song-details">
         <div className='category-title'>{track.title}</div>
-        <div className="category-artists">{track.artists.join(',&nbsp;')}</div>
+        <div className="category-artists">{track.artists}</div>
       </div>
     </div>
   )
