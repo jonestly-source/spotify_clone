@@ -83,11 +83,7 @@ img {
 
 .main-container {
   height: auto;
-<<<<<<< HEAD
-  padding: 20px max(20px, 3vw);
-=======
   padding: min(20px, 3vw);
->>>>>>> 6c44373baf9198e1b958ff863a1968b3a2a7855e
   display: flex;
   gap: 10px;
   flex-direction: column;
@@ -154,12 +150,8 @@ section > .title {
   cursor: pointer;
 }
 
-<<<<<<< HEAD
-.category-title, .category-artists, .title {
-=======
 .category-title,
 .category-artists {
->>>>>>> 6c44373baf9198e1b958ff863a1968b3a2a7855e
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

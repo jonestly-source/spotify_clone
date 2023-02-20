@@ -51,6 +51,7 @@ export function FeaturedPlaylists({ playlists }) {
     </div>
   )
 }
+
 export function TopItems({ track }) {
   return (
     <div className="container" href={track.uri}>

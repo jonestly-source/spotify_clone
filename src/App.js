@@ -129,8 +129,6 @@ function App() {
   }, [nowPlaying])
 
 
-
-
   const favState = (e) => {
     e.stopPropagation();
     heartState ? setHeartState(false) : setHeartState(true);
