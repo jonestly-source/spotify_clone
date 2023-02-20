@@ -151,7 +151,8 @@ section > .title {
 }
 
 .category-title,
-.category-artists, .title {
+.category-artists,
+.title {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -159,7 +160,7 @@ section > .title {
   font-weight: bold;
 }
 
-.category .category-artists {
+.category .category-artists, .artists {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
