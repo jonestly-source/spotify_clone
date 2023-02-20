@@ -83,7 +83,7 @@ img {
 
 .main-container {
   height: auto;
-  padding: min(20px, 3vw);
+  padding: 20px min(20px, 3vw);
   display: flex;
   gap: 10px;
   flex-direction: column;
