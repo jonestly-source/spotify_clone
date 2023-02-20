@@ -13,7 +13,7 @@ export function NewRelease({ track }) {
         <div className="category-title">
           {track.title}
         </div>
-        <div className='category-artists'>{track.artists.join(" ")}</div>
+        <div className='category-artists'>{track.artists}</div>
       </div>
     </div>
   )
@@ -63,7 +63,7 @@ export function TopItems({ track }) {
           {track.title}
         </div>
         <div className="category-artists">
-          {track.artists.join(', ')}
+          {track.artists}
         </div>
       </div>
     </div>
