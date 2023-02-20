@@ -244,7 +244,7 @@ function App() {
             <section>
               <div className="song-details">
                 <div className="title">{nowPlaying.title}</div>
-                <div className="artist">{nowPlaying.artists.join(", ")}</div>
+                <div className="artist">{nowPlaying.artists}</div>
               </div>
               <div className="cv-image" onClick={favState}>
                 <Heart className="icon" fill={heartState ? "white" : "transparent"} />
