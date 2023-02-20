@@ -30,11 +30,14 @@ html {
   overflow-y: var(--overflow);
   overflow-x: hidden;
   background: rgb(8, 13, 13);
-  background: linear-gradient(320deg,
-      rgba(8, 13, 13, 1) 68%,
-      var(--player-color) 100%);
+  background: linear-gradient(
+    320deg,
+    rgba(8, 13, 13, 1) 68%,
+    var(--player-color) 100%
+  );
   color: white;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 /* ===== Scrollbar CSS ===== */
@@ -80,7 +83,11 @@ img {
 
 .main-container {
   height: auto;
+<<<<<<< HEAD
   padding: 20px max(20px, 3vw);
+=======
+  padding: min(20px, 3vw);
+>>>>>>> 6c44373baf9198e1b958ff863a1968b3a2a7855e
   display: flex;
   gap: 10px;
   flex-direction: column;
@@ -115,16 +122,15 @@ nav {
   gap: 10px;
 }
 
-nav>.cv-image:has(input) {
+nav > .cv-image:has(input) {
   position: relative;
 }
 
 h1,
-section>.title {
+section > .title {
   font-size: clamp(1.3em, 3vw, 2rem);
   font-weight: bold;
 }
-
 
 .recent-play {
   max-height: 250px;
@@ -148,7 +154,12 @@ section>.title {
   cursor: pointer;
 }
 
+<<<<<<< HEAD
 .category-title, .category-artists, .title {
+=======
+.category-title,
+.category-artists {
+>>>>>>> 6c44373baf9198e1b958ff863a1968b3a2a7855e
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -176,7 +187,7 @@ section>.title {
   cursor: pointer;
 }
 
-nav>.cv-image {
+nav > .cv-image {
   background: none;
   height: auto;
   width: auto;
@@ -186,12 +197,12 @@ nav>.cv-image {
   width: 100%;
   height: 0;
   position: relative;
-  border-radius: .2rem;
+  border-radius: 0.2rem;
   overflow: hidden;
   padding-bottom: 100%;
 }
 
-.lg>img {
+.lg > img {
   position: absolute;
   top: 0;
   height: 100%;
@@ -247,7 +258,7 @@ nav>.cv-image {
   flex: none;
 }
 
-.container> :has(.category-title, .category-artists) {
+.container > :has(.category-title, .category-artists) {
   color: hsl(0 0% 100% / 0.9);
   margin-inline: 5px;
   margin-top: 5px;
@@ -287,7 +298,6 @@ nav>.cv-image {
   gap: 10px;
   padding-right: 10px;
   position: relative;
-
 }
 
 .player-wrapper::after {
@@ -313,7 +323,7 @@ nav>.cv-image {
   stroke: var(--mute-color);
 }
 
-.controller>.cv-image:not(:first-child, :last-child)>.icon {
+.controller > .cv-image:not(:first-child, :last-child) > .icon {
   stroke: white;
 }
 
@@ -321,17 +331,17 @@ nav>.cv-image {
   stroke: white;
 }
 
-.player-wrapper>.song {
+.player-wrapper > .song {
   flex-grow: 1;
   margin: 10px;
 }
 
-.song>.title {
+.song > .title {
   font-weight: bold;
   font-size: 1em;
 }
 
-.song>.artist {
+.song > .artist {
   font-size: 0.6em;
   color: hsl(0 0% 100% / 0.7);
 }
@@ -347,14 +357,19 @@ nav>.cv-image {
   display: none;
   justify-content: center;
   flex-direction: column;
-  background: linear-gradient(to bottom, hsl(0 0% 0% / 0.8), hsl(0 0% 0%) 70%, var(--player-color) 100%);
+  background: linear-gradient(
+    to bottom,
+    hsl(0 0% 0% / 0.8),
+    hsl(0 0% 0%) 70%,
+    var(--player-color) 100%
+  );
   z-index: 9999;
   padding: 20px;
   gap: 10px;
   transform: translate(-50%, -50%);
 }
 
-.player-container> :last-child {
+.player-container > :last-child {
   margin-bottom: 20px;
 }
 
@@ -367,7 +382,7 @@ nav>.cv-image {
   gap: 10px;
 }
 
-.cover-section>.cv-image {
+.cover-section > .cv-image {
   width: 90%;
   height: 0;
   border-radius: 0;
@@ -376,7 +391,7 @@ nav>.cv-image {
   position: relative;
 }
 
-.cover-section>.cv-image>img {
+.cover-section > .cv-image > img {
   position: absolute;
   height: 100%;
   width: 100%;
@@ -384,10 +399,9 @@ nav>.cv-image {
   left: 0;
 }
 
-
 .player-navbar,
 .controller,
-.player-container>section,
+.player-container > section,
 .time {
   display: flex;
   max-height: 50px;
@@ -397,7 +411,7 @@ nav>.cv-image {
 
 [type="range"] {
   -webkit-appearance: none;
-  height: max(1.5px, .3rem);
+  height: max(1.5px, 0.3rem);
   width: 100%;
   margin-bottom: 10px;
   background: var(--mute-color);
@@ -465,19 +479,19 @@ input[type="range"]::-webkit-slider-runnable-track {
   padding: 15px;
 }
 
-.song-details>.title {
+.song-details > .title {
   font-weight: bold;
   font-size: 1.5em;
 }
 
-.song-details>.artist {
+.song-details > .artist {
   color: hsl(0 0% 100% / 0.7);
   font-size: 1em;
 }
 
 @media (width > 600px) {
   .player-container {
-    border-radius: .8rem;
+    border-radius: 0.8rem;
     padding: 30px;
   }
 }
