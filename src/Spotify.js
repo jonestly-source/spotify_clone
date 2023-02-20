@@ -24,7 +24,7 @@ export async function getRecentlyPlayed() {
         title: track.track.name,
         uri: track.track.uri,
         albumUrl: track.track.album.images[0].url,
-        artists: [track.track.artists.map((e) => e.name)]
+        artists: [track.track.artists.map((e) => e.name)],
       };
     });
     return songDetails;
@@ -45,7 +45,7 @@ export async function getNewRelease() {
     }
   );
   if (data) {
-    console.log(data.albums.items)
+    // console.log(data.albums.items)
     const songDetails = data.albums.items.map((e) => {
       return {
         title: e.name,
@@ -77,7 +77,7 @@ export const getPlaybackState = async () => {
   return data;
 };
 
-export const getCurrentlyPlaying = async () => {
+export const getNowPlaying = async () => {
   const { data } = await axios.get(
     "https://api.spotify.com/v1/me/player/curreny-playing",
     {
@@ -87,5 +87,26 @@ export const getCurrentlyPlaying = async () => {
     }
   );
 
-  return data;
+  if (data) {
+    return data.map((e) => {
+      return {
+        title: e.item.name,
+        uri: e.item.uri,
+        albumUrl: e.item.album.images[0].url,
+        artists: [e.artists.map((e) => e.name)],
+        playingType: e.currently_playing_type,
+        duration: e.item.duration_ms,
+        shuffleState: e.shuffle_state,
+        repeatState: e.repeat_state,
+      };
+    });
+  }
 };
+
+export function msToTime(ms) {
+  return new Date(ms).toISOString().slice(14, 19);
+}
+
+export function msToPercent(ms, totalms) {
+  return `${Math.floor((ms * 100) / totalms)}%`;
+}
