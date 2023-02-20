@@ -417,7 +417,6 @@ nav > .cv-image {
   background-image: linear-gradient(var(--primary-color), var(--primary-color));
 }
 
-
 [type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 13px;
