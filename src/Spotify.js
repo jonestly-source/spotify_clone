@@ -224,6 +224,61 @@ export const getFollowedArtists = async () => {
   }
 };
 
+export const toggleShuffle = (shuffle) => {
+  const { data } = await axios.get("https://api.spotify.com/v1/me/player/shuffle", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      q: shuffle
+    }
+  });
+  
+  console.log(data)
+}
+
+export const toggleRepeat = (repeat) => {
+  const { data } = await axios.get("https://api.spotify.com/v1/me/player/repeat", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      q: repeat
+    }
+  });
+}
+
+export const togglePlayback = (state) => {
+  if(state) {
+    const { data } = await axios.get(`https://api.spotify.com/v1/me/player/${state}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  } else {
+    rsturn null
+  }
+}
+
+export const toggleNextPrev = (state) => {
+  const { data } = await axios.get(`https://api.spotify.com/v1/me/player/${state}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export const seekPosition = (pos) => {
+  const { data } = await axios.get('https://api.spotify.com/v1/me/player/seek', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      q: pos
+    }
+  });
+}
+
 export function msToTime(ms) {
   return new Date(ms).toISOString().slice(14, 19);
 }
