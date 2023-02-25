@@ -69,3 +69,21 @@ export function TopItems({ track }) {
     </div>
   )
 }
+
+export function FollowedArtists({artists}) {
+  return (
+    <div className="container">
+      <div className="cv-image lg">
+        <img src={artists.imageUrl} alt={artists.name} />
+      </div>
+      <div className="song-details">
+        <div className="category-title">
+          {artists.name}
+        </div>
+        <div className="category-artists">
+          {artists.genres}
+        </div>
+      </div>
+    </div>
+  )
+}

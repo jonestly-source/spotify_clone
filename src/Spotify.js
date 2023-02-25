@@ -47,7 +47,6 @@ export async function getNewRelease() {
     }
   );
   if (data) {
-    // console.log(data.albums.items)
     const songDetails = data.albums.items.map((data) => {
       return {
         title: data.name,
@@ -224,8 +223,8 @@ export const getFollowedArtists = async () => {
   }
 };
 
-export const toggleShuffle = (shuffle) => {
-  const { data } = await axios.get("https://api.spotify.com/v1/me/player/shuffle", {
+export const toggleShuffle = async (shuffle) => {
+  await axios.get("https://api.spotify.com/v1/me/player/shuffle", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -233,12 +232,10 @@ export const toggleShuffle = (shuffle) => {
       q: shuffle
     }
   });
-  
-  console.log(data)
 }
 
-export const toggleRepeat = (repeat) => {
-  const { data } = await axios.get("https://api.spotify.com/v1/me/player/repeat", {
+export const toggleRepeat = async (repeat) => {
+  await axios.get("https://api.spotify.com/v1/me/player/repeat", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -248,19 +245,17 @@ export const toggleRepeat = (repeat) => {
   });
 }
 
-export const togglePlayback = (state) => {
-  if(state) {
-    const { data } = await axios.get(`https://api.spotify.com/v1/me/player/${state}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  } else {
-    rsturn null
+export const togglePlayback = async (state) => {
+  if (!state) {
+    await axios.get(`https://api.spotify.com/v1/me/player/pause`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 }
 
-export const toggleNextPrev = (state) => {
+export const toggleNextPrev = async (state) => {
   const { data } = await axios.get(`https://api.spotify.com/v1/me/player/${state}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -268,7 +263,7 @@ export const toggleNextPrev = (state) => {
   });
 }
 
-export const seekPosition = (pos) => {
+export const seekPosition = async (pos) => {
   const { data } = await axios.get('https://api.spotify.com/v1/me/player/seek', {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -277,6 +272,15 @@ export const seekPosition = (pos) => {
       q: pos
     }
   });
+}
+
+export const getDevices = async () => {
+  const { data } = await axios.get('https://api.spotify.com/v1/me/player/devices', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data ? data.devices : null
 }
 
 export function msToTime(ms) {

@@ -14,8 +14,9 @@ import { average } from "color.js";
 import "./App.css";
 import { useEffect, useState, useRef } from "react";
 import * as spotify from "./Spotify";
+import Player from "./Player"
 import RecentTracks from "./RecentTracks";
-import { NewRelease, Category, FeaturedPlaylists, TopItems } from "./Categories";
+import { NewRelease, Category, FeaturedPlaylists, TopItems, FollowedArtists } from "./Categories";
 
 function App() {
   const CLIENT_ID = "6f948a1c7d894133992a9aaad8f196df";
@@ -47,6 +48,7 @@ function App() {
   const [token, setToken] = useState("");
   const [recentlyPlayed, setRecentlyPlayed] = useState([]);
   const [featuredPlaylists, setFeaturedPlaylists] = useState([])
+  const [followedArtists, setFollowedArtists] = useState([])
   const [topItems, setTopItems] = useState([])
   const [categories, setCategories] = useState([])
   const [newRelease, setNewRelease] = useState([]);
@@ -57,6 +59,7 @@ function App() {
   const [currentTime, setCurrentTime] = useState("0:00")
   const [totalDur, setTotalDur] = useState("0:00")
   const [shuffleState, setShuffleState] = useState(false)
+  const [device, setDevice] = useState([])
   const [repeatState, setRepeatState] = useState()
   const [nowPlaying, setNowPlaying] = useState()
 
@@ -87,13 +90,14 @@ function App() {
     setToken(token);
     if (token) {
       spotify.theToken(token);
+      spotify.getDevices(token).then((devices) => devices.length ? setDevice(devices[0]) : null)
       spotify.getRecentlyPlayed().then((e) => setRecentlyPlayed(e));
       spotify.getNewRelease().then((el) => setNewRelease(el));
       spotify.getNowPlaying().then(el => setNowPlaying(el))
       spotify.getCategory().then(e => setCategories(e))
       spotify.getFeaturedPlaylists().then(e => setFeaturedPlaylists(e))
       spotify.getTopItems().then(e => setTopItems(e))
-      spotify.getFollowedArtists().then(e => console.log(e))
+      spotify.getFollowedArtists().then(e => setFollowedArtists(e))
     }
   }, []);
 
@@ -107,13 +111,9 @@ function App() {
     e.stopPropagation()
     if (showPlayer.current.style.display === "flex") {
       showPlayer.current.style.display = "none";
-      document.body.style.setProperty("--overflow", "overlay");
-      document.body.style.setProperty("--height", "initial");
       setPlayerWrapper(true)
     } else {
       showPlayer.current.style.display = "flex";
-      document.body.style.setProperty("--overflow", "hidden");
-      document.body.style.setProperty("--height", "100svh");
       setPlayerWrapper(false)
     }
   }
@@ -136,7 +136,11 @@ function App() {
 
   const songState = (e) => {
     e.stopPropagation();
-    playState ? setPlayState(false) : setPlayState(true);
+    if(playState) {
+      spotify.togglePlayback(false).then(() => setPlayState(false))
+    } else {
+      spotify.togglePlayback(true).then(() => setPlayState(true))
+    }
   }
 
   if (!token) {
@@ -217,6 +221,14 @@ function App() {
           </div>
         </section>
         <section className="categories">
+          <div className="title">Your Followed Artists</div>
+          <div className="category">
+            {followedArtists.map((artists) => (
+              <FollowedArtists artists={artists} uri={artists.uri}/>
+            ))}
+          </div>
+        </section>
+        <section className="categories">
           <div className="title">Categories</div>
           <div className="category">
             {categories.map((category) => (
@@ -265,17 +277,17 @@ function App() {
               </div>
             </div>
             <div className="controller">
-              <div className="cv-image" style={{ marginRight: "auto" }} onClick={shuffleState ? () => setShuffleState(false) : () => setShuffleState(true)} >
-                <Shuffle className="icon" aria-selected={shuffleState} />
+              <div className="cv-image" style={{ marginRight: "auto" }} onClick={() => spotify.toggleShuffle(shuffleState).then(() => shuffleState ? () => setShuffleState(false) : () => setShuffleState(true))} >
+                <Shuffle className="icon" aria-selected={shuffleState}/>
               </div>
               <div className="cv-image">
-                <Preview className="icon" />
+                <Preview className="icon" onClick={() => spotify.toggleNextPrev("previous")}/>
               </div>
               <div className="cv-image play" onClick={songState}>
                 {playState ? <Pause className="icon" /> : <Play className="icon" />}
               </div>
               <div className="cv-image">
-                <Next className="icon" />
+                <Next className="icon" onClick={() => spotify.toggleNextPrev("next")} />
               </div>
               <div className="cv-image" style={{ marginLeft: "auto" }}>
                 <Repeat className="icon" />
