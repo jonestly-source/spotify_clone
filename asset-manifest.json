@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/spotify_clone/static/css/main.3ab3c9e1.css",
-    "main.js": "/spotify_clone/static/js/main.0003bcbf.js",
+    "main.js": "/spotify_clone/static/js/main.52647273.js",
     "index.html": "/spotify_clone/index.html",
     "static/media/share.svg": "/spotify_clone/static/media/share.fe512489f90f7c695ab6e4d80faabba3.svg",
     "static/media/shuffle.svg": "/spotify_clone/static/media/shuffle.67ed30895205a06024135c1aea362e51.svg",
@@ -17,10 +17,10 @@
     "static/media/play.svg": "/spotify_clone/static/media/play.ba6c54c175df1af4d59102ec30469fed.svg",
     "static/media/hide.svg": "/spotify_clone/static/media/hide.5c1ab4be9998b56662152eef91508996.svg",
     "main.3ab3c9e1.css.map": "/spotify_clone/static/css/main.3ab3c9e1.css.map",
-    "main.0003bcbf.js.map": "/spotify_clone/static/js/main.0003bcbf.js.map"
+    "main.52647273.js.map": "/spotify_clone/static/js/main.52647273.js.map"
   },
   "entrypoints": [
     "static/css/main.3ab3c9e1.css",
-    "static/js/main.0003bcbf.js"
+    "static/js/main.52647273.js"
   ]
 }
