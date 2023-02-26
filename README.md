@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://jonestly-source.github.io/spotify-clone/"><img src="https://raw.githubusercontent.com/jonestly-source/spotify-clone/master/public/banner.png" alt="Spotify Clone" width="200"></a>
+  <a href="https://jonestly-source.github.io/spotify-clone/"><img src="https://github.com/jonestly-source/spotify_clone/blob/master/public/banner.png" alt="Spotify Clone" width="200"></a>
   <br>
   Spotify Clone
   <br>
